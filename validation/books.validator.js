@@ -1,7 +1,7 @@
 const Joi = require("joi")
 
 
-const bookValidator = joi.object({
+const bookValidator = Joi.object({
     title: Joi.string()
                 .min(5)
                 .max(255)
