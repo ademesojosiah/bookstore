@@ -1,8 +1,13 @@
 const express = require('express')
 const bodyParser = require('body-parser')
 const conFig = require('./config/config')
+const connectDb = require('./db/mongoDb')
 
 const app = express()
+
+
+//connect to mongo db
+connectDb()
 
 //import body parser middleware
 app.use(express.json())
