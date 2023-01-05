@@ -53,7 +53,7 @@ bookRouter.put('/:id',updateBookValidationMiddleware, (req, res) => {
 
 bookRouter.delete('/:id', (req, res) => {
     const id = req.params.id
-    bookModel.findByIdAndRemove(id)
+    bookModel.deleteOne({_id:id})
         .then(book => {
             res.status(200).send(book)
         }).catch(err => {
