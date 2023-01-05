@@ -24,7 +24,7 @@ app.use((err, req, res, next) => {
   console.log(err);
   const errorStatus = err.status || 500;
 
-  res.status(errorStatus).json({ error: err });
+  res.status(errorStatus).json({ error: err.message });
 });
 
 app.listen(conFig.PORT, () => {
