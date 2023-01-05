@@ -16,10 +16,8 @@ const updateBookValidator = Joi.object({
     shortDescription: Joi.string().min(5).max(500).optional().trim(),
     longDescription: Joi.string().min(10).optional().trim(),
     year: Joi.number().integer().optional().max(2022),
-    isbn: Joi.string().min(10).max(13).required(),
-    price: Joi.number().min(0).optional(),
-    createdAt: Joi.date().default(Date.now),
-    lastUpdatdAt: Joi.date().default(Date.now),
+    isbn: Joi.string().min(10).max(13),
+    price: Joi.number().min(0).optional()
   })
 
 async function addBookValidationMiddleware(req, res, next) {
