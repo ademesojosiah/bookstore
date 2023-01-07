@@ -3,7 +3,7 @@ const Joi = require("joi");
 const addAuthorValidator = Joi.object({
   firstname: Joi.string().max(255).required().trim(),
   lastname: Joi.string().max(255).required().trim(),
-  dob: Joi.date().min(1900).max(2023).required(),
+  dob: Joi.date().greater("1-01-1990").less("1-1-2020").required(),
   country: Joi.string().optional().trim(),
   books: Joi.array().items(Joi.string()),
   createdAt: Joi.date().default(Date.now),
