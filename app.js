@@ -5,6 +5,7 @@ const helmet = require("helmet");
 const bodyParser = require("body-parser");
 const conFig = require("./config/config");
 const connectDb = require("./db/mongoDb");
+const logger = require('./logging/logger')
 
 const bookRouter = require("./routes/booksRoute");
 const authorRouter = require('./routes/authorsRoute')
@@ -43,12 +44,12 @@ app.get("/", (req, res) => {
 
 //error handler middleware
 app.use((err, req, res, next) => {
-  console.log(err);
+  logger.error(err.message);
   const errorStatus = err.status || 500;
 
   res.status(errorStatus).json({ error: err.message });
 });
 
 app.listen(conFig.PORT, () => {
-  console.log(`server connected to http://localhost:${conFig.PORT}`);
+  logger.info(`server connected to http://localhost:${conFig.PORT}`);
 });
