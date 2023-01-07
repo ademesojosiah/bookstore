@@ -1,5 +1,7 @@
 const express = require("express");
-const rateLimit = require('express-rate-limit') 
+const rateLimit = require('express-rate-limit');
+const helmet = require("helmet");
+
 const bodyParser = require("body-parser");
 const conFig = require("./config/config");
 const connectDb = require("./db/mongoDb");
@@ -20,7 +22,14 @@ const limiter = rateLimit({
 	legacyHeaders: false, // Disable the `X-RateLimit-*` headers
 })
 
+//Apply the rate limiting middleware to all requests
 app.use(limiter)
+
+
+//security middleware
+app.use(helmet()); 
+
+
 //import body parser middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
