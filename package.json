@@ -23,6 +23,7 @@
     "mongoose": "^6.8.2",
     "morgan": "^1.10.0",
     "morgan-json": "^1.1.0",
+    "request": "^2.88.2",
     "winston": "^3.8.2"
   }
 }

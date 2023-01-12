@@ -14,7 +14,8 @@ const connectDb = () => {
     logger.err(err);
   });
 
-  mongoose.set("strictQuery", true);
 };
+
+mongoose.set('strictQuery', true);
 
 module.exports = connectDb;
