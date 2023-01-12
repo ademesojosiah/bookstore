@@ -5,24 +5,19 @@ This is an api for a Bookstore
 
 ## Requirements
 1. User should be able to sign up with auth0
-2. Author should have a first_name, last_name, dob, country, books when creating an account
-4. Logged in and not logged in users should be able to get a list of published blogs created
-5. Logged in and not logged in users should be able to to get a published blog
-6. A blog can be in two states; draft and published
-7. Logged in users should be able to create a blog.
-8. When a blog is created, it is in draft state
-9. The owner of the blog should be able to update the state of the blog to published
-10. The owner of a blog should be able to edit the blog in draft or published state
-11. The owner of the blog should be able to delete the blog in draft or published state
-12. The owner of the blog should be able to get a list of their blogs. 
-13. It should be filterable by state
-14. Blogs created should have title, description, tags, author, timestamp, state, read_count, reading_time and body.
-15. The list of blogs endpoint that can be accessed by both logged in and not logged in users should be paginated, 
-    default it to 20 blogs per page. 
-16. It is also searchable by author, title and tags.
-17. It is also orderable by read_count, reading_time and timestamp
-18. When a single blog is requested, the api should return the user information(the author) with the blog. The read_count of the blog too should be updated by 1
+2. logged in User should be able to create an Author Account,
+3. Author should have a first_name, last_name, dob, country, books when creating an account
+4. Author should able to perforn CRUD operation , create, read, Update and delete account 
+5. Logged in user should be able to perforn CRUD operation on the bookstore, create, add, update, delete book
 
+---
+---
+
+## Security
+- joi input validation
+- helmet security
+- express rate limiter
+- Good logging
 
 ---
 
@@ -40,24 +35,27 @@ This is an api for a Bookstore
 ## Models
 ---
 
-### User
+### author
 | field  |  data_type | constraints  |
 |---|---|---|
-|  email     | string  |  required, unique | 
 |  first_name | string  |  required|
 |  last_name  |  string |  required |
-|  password |   string |  required  |
+|  dob |   Date |  required  |
+|  country     | string  | optional| 
+|  books     | array  |  | 
 
 
-### Blog
+
+
+### Books
 | field  |  data_type | constraints  |
 |---|---|---|
 |  title |  string |  required , unique|
-|  description |  string |  |
-|  author | mongoose.Types.ObjectId | ref:'User'|
-|  state | string | enum: ['Draft','Published']|
-|  tags |   string |   |
-|  body |  string |  required |
+|  shortDescription |  string |required  |
+|  longDescription |  string |required  |
+|  year | number |required  |
+|  isbn |   string | required  |
+|  price |  number |  required |
 
 
 ## APIs
@@ -65,146 +63,61 @@ This is an api for a Bookstore
 
 ### Signup User
 
-- Route: /auth/signup
-- Method: POST
-- Body: 
-```
-{
-    "first_name": "eri",
-    "last_name": "Ogunseye",
-    "email": "eri@gmail.com",
-    "password": "secret",
-}
-```
-
-- Responses
-
-Success
-```
-{
-  "user": {
-    "first_name": "eri",
-    "last_name": "Ogunseye",
-    "email": "eri@gmail.com",
-    "password": "$2b$10$n4DlouV0ucabGCXHQ5gKeeyPO/ar8Gyzygqf.3Qi3.fK8pfQD8WdG",
-    "_id": "636678b7283f52463dde032f",
-    "__v": 0
-  },
-  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNjM2Njc4YjcyODNmNTI0NjNkZGUwMzJmIiwiZW1haWwiOiJlcmlAZ21haWwuY29tIiwiZnVsbG5hbWUiOiJlcmkgT2d1bnNleWUiLCJpYXQiOjE2Njc2NTk5NTksImV4cCI6MTY2ODI2NDc1OX0.JWDLGOAkCtIAKmd1nR6Yr4RPZCoz5fwZ3Xy3JEy5yA4",
-  "message": "account succesfully created"
-}
-
-
-```
----
-### Login User
-
-- Route: auth/login
-- Method: POST
-- Body: 
-```
-{
-  "email": "eri@gmail.com",
-  "password": "secrett",
-}
-```
-
-- Responses
-
-Success
-```
-{
-  "user": {
-    "user": {
-      "_id": "636678b7283f52463dde032f",
-      "first_name": "eri",
-      "last_name": "Ogunseye",
-      "email": "eri@gmail.com",
-      "password": "$2b$10$n4DlouV0ucabGCXHQ5gKeeyPO/ar8Gyzygqf.3Qi3.fK8pfQD8WdG",
-      "__v": 0
-    },
-    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNjM2Njc4YjcyODNmNTI0NjNkZGUwMzJmIiwiZW1haWwiOiJlcmlAZ21haWwuY29tIiwiZnVsbG5hbWUiOiJlcmkgT2d1bnNleWUiLCJpYXQiOjE2Njc2NjAzNTEsImV4cCI6MTY2ODI2NTE1MX0.YDKr40xcVslPKOM_ZHSS9d-JmBvCVAGjfkQ0af_O26c"
-  },
-  "message": "Login successful"
-}
-```
-
-### not logged in users routes
-
----
-### Get published  blog
-
-
-- Route: /blog/all
+- Route: /signup
 - Method: GET
-- Query params: 
-    - page (default: 1)
-    - per_page (default: 20)
-    - order_by (default: createdAt)
-    - order_by ('read_count' for asc, '-read_count' for desc)
-    - author
-    - title
-    - tags
+- Body: 
+```
+```
+
+- Responses
+
+Success
+```
+
+```
+---
+### Logout User
+
+- Route: auth/logout
+- Method: GET
+- Body: 
+- Responses
+
+Success
+```
+```
+
+### Protected  AUTHORS Routes
+
+---
+### Return all autors
+
+
+- Route: /api/v1/authors
+- Method: GET
 - Responses
 
 Success
 ```
 {
- status: true,
+ "nHbits": 4,
  blog:[]
 }
 ```
 ---
-### Get a published blog
+### create an author
 
-- Route: /blog/all/:id
-- Method: GET
-- Responses
-
-Success
-```
-{
-  "status": true,
-  "blog": {
-    "_id": "636685f9e392c6cf8c087d6a",
-    "title": "manchester city",
-    "description": "king of pass ",
-    "author": {
-      "_id": "6364f7f02d071da00221cb76",
-      "first_name": "logo",
-      "last_name": "semilogo",
-      "email": "logo@gmail.com",
-      "__v": 0
-    },
-    "writtenBy": "logo semilogo",
-    "state": "Published",
-    "read_count": 1,
-    "reading_time": "0.168 minutes",
-    "tags": "football",
-    "body": "hi, history of football is beig said here ",
-    "createdAt": "2022-11-05T15:49:13.054Z",
-    "updatedAt": "2022-11-05T15:49:43.984Z",
-    "__v": 0
-  }
-}
-```
-
-### logged in users only 
----
-### Create  a Blog (logged in users only )
-
-- Route: /user/blog/create
+- Route: /api/v1/authors
 - Method: POST
-- Header
-    - Authorization: Bearer {token}
+- Responses
 - Body: 
 ```
 {
-"title":"testing new routes",
-"description":"not much to say",
-"state":"Published",
-"tags":"sense",
-"body":"omo, i have nothing to say to you do your worse"
+    "firstname": "Issac",
+    "lastname": "Adebayo",
+    "dob": "12-21-1998",
+    "country": "dutch"
+
 }
 ```
 
@@ -213,156 +126,28 @@ Success
 Success
 ```
 {
-  "status": true,
-  "blog": {
-    "title": "testing new routes",
-    "description": "not much to say",
-    "author": "6364f7f02d071da00221cb76",
-    "writtenBy": "logo semilogo",
-    "state": "Published",
-    "read_count": 0,
-    "reading_time": "0.188 minutes",
-    "tags": "sense",
-    "body": "omo, i have nothing to say to you do your worse",
-    "_id": "63659f18d3e7a0b702d0cad9",
-    "createdAt": "2022-11-04T23:24:08.768Z",
-    "updatedAt": "2022-11-04T23:24:08.768Z",
+    "firstname": "Issac",
+    "lastname": "Adebayo",
+    "dob": "1998-12-20T23:00:00.000Z",
+    "country": "dutch",
+    "books": [],
+    "_id": "63b9b757892f349cde4251c7",
+    "createdAt": "2023-01-07T18:17:59.760Z",
+    "lastUpdatedAt": "2023-01-07T18:17:59.760Z",
     "__v": 0
-  }
 }
 ```
----
-### Get all published blog (logged in users only )
 
+### Update an Author 
 
-- Route: /user/blog/published
-- Method: GET
-- Header:
-    - Authorization: Bearer {token}
-- Query params: 
-    - page (default: 1)
-    - per_page (default: 20)
-    - order_by (default: createdAt)
-    - order_by ('read_count' for asc, '-read_count' for desc)
-    - author
-    - title
-    - tags
+- Route: /api/v1/authors/:id
+- Method: PUT
 - Responses
-
-Success
-```
-{
- status: true,
- blog:[]
-}
-```
----
-
----
-### Get a published blog  (logged in users only )
-
-- Route: /user/blog/published/:id
-- Method: GET
-- Header
-    - Authorization: Bearer {token}
-- Responses
-
-Success
-```
-{
-  "status": true,
-  "blog": {
-    "_id": "636685f9e392c6cf8c087d6a",
-    "title": "manchester city",
-    "description": "king of pass ",
-    "author": {
-      "_id": "6364f7f02d071da00221cb76",
-      "first_name": "logo",
-      "last_name": "semilogo",
-      "email": "logo@gmail.com",
-      "__v": 0
-    },
-    "writtenBy": "logo semilogo",
-    "state": "Published",
-    "read_count": 1,
-    "reading_time": "0.168 minutes",
-    "tags": "football",
-    "body": "hi, history of football is beig said here ",
-    "createdAt": "2022-11-05T15:49:13.054Z",
-    "updatedAt": "2022-11-05T15:49:43.984Z",
-    "__v": 0
-  }
-}
-```
----
-### Get all my blogs created by me (logged in users only )
-
-- Route: /user/blog/all
-- Method: GET
-- Header:
-    - Authorization: Bearer {token}
-- Query params: 
-    - page (default: 1)
-    - per_page (default: 5)
-    - state (Draft, Published)
-- Responses
-
-Success
-```
-{
- status: true,
- blog:[]
-}
-```
----
-
-### Get a blog from my blogs  (logged in users only )
-
-- Route: /user/blog/all/:id
-- Method: GET
-- Header
-    - Authorization: Bearer {token}
-- Responses
-
-Success
-```
-{
-  "status": true,
-  "blog": {
-    "_id": "636685f9e392c6cf8c087d6a",
-    "title": "manchester city",
-    "description": "king of pass ",
-    "author": {
-      "_id": "6364f7f02d071da00221cb76",
-      "first_name": "logo",
-      "last_name": "semilogo",
-      "email": "logo@gmail.com",
-      "__v": 0
-    },
-    "writtenBy": "logo semilogo",
-    "state": "Published",
-    "read_count": 1,
-    "reading_time": "0.168 minutes",
-    "tags": "football",
-    "body": "hi, history of football is beig said here ",
-    "createdAt": "2022-11-05T15:49:13.054Z",
-    "updatedAt": "2022-11-05T15:49:43.984Z",
-    "__v": 0
-  }
-}
-```
----
-
-### update my blog  (logged in users only )
-
-- Route: /user/blog/all/:id
-- Method: patch
-- Header
-    - Authorization: Bearer {token}
 - Body: 
 ```
 {
-    "state": "Published"
+    "country": "nigeria"
+
 }
 ```
 
@@ -371,40 +156,24 @@ Success
 Success
 ```
 {
-  "status": true,
-  "blog": {
-    "_id": "636685f9e392c6cf8c087d6a",
-    "title": "manchester city",
-    "description": "king of pass ",
-    "author": {
-      "_id": "6364f7f02d071da00221cb76",
-      "first_name": "logo",
-      "last_name": "semilogo",
-      "email": "logo@gmail.com",
-      "__v": 0
-    },
-    "writtenBy": "logo semilogo",
-    "state": "Published",
-    "read_count": 1,
-    "reading_time": "0.168 minutes",
-    "tags": "football",
-    "body": "hi, history of football is beig said here ",
-    "createdAt": "2022-11-05T15:49:13.054Z",
-    "updatedAt": "2022-11-05T15:49:43.984Z",
+    "firstname": "Issac",
+    "lastname": "Adebayo",
+    "dob": "1998-12-20T23:00:00.000Z",
+    "country": "nigeria",
+    "books": [],
+    "_id": "63b9b757892f349cde4251c7",
+    "createdAt": "2023-01-07T18:17:59.760Z",
+    "lastUpdatedAt": "2023-01-07T18:17:59.760Z",
     "__v": 0
-  }
 }
-
-
 ```
+
 ---
 
-### delete a  blog  (logged in users only )
+### Delete an Author 
 
-- Route: /user/blog/all/:id
+- Route: /api/api/author/:id
 - Method: delete
-- Header
-    - Authorization: Bearer {token}
 - Responses
 
 Success
@@ -415,6 +184,139 @@ Success
     "acknowledged": true,
     "deletedCount": 1
   }
+}
+```
+
+```
+### Book Route
+
+```
+
+### Create  a Blookstore (logged in users only )
+
+- Route: /api/v1/books
+- Method: POST
+- Body: 
+```
+{
+    "title": "i want to delete ni ooo",
+    "shortDescription": "With work that ranges from the laugh out loud funny to the silence and rage of loss, Forgive Yourself These Tiny Acts of Self-Destruction is a must read. ",
+    "longDescription" : "This is a collection of work that asks itself for forgiveness while becoming an instruction manual on how readers can follow suit. These complex and passionate poems make space for a narrative about the self in the wake of destruction.",
+    "year":2019,
+    "isbn": "978-43735-",
+    "price": 40.55
+}
+```
+
+- Responses
+
+Success
+```
+{
+    "title": "i want to deleteni ooo",
+    "shortDescription": "With work that ranges from the laugh out loud funny to the silence and rage of loss, Forgive Yourself These Tiny Acts of Self-Destruction is a must read. ",
+    "longDescription": "This is a collection of work that asks itself for forgiveness while becoming an instruction manual on how readers can follow suit. These complex and passionate poems make space for a narrative about the self in the wake of destruction.",
+    "year": 2019,
+    "isbn": "978-43735-",
+    "price": 40.55,
+    "_id": "63c043f4e63a8a28145234df",
+    "createdAt": "2023-01-12T17:31:32.311Z",
+    "lastUpdatedAt": "2023-01-12T17:31:32.311Z",
+    "__v": 0
+}
+```
+---
+### Get all Books (logged in users only )
+
+
+- Route: /api/v1/books
+- Method: GET
+- Header:
+    - Authorization: Bearer {token}
+
+- Responses
+
+Success
+```
+{
+    "nHbits": 4,
+    "books": []
+}
+```
+---
+
+---
+### Get book by unique Id  (logged in users only )
+
+- Route: /api/v1/books/:id{63b72cdd075c9cdab99a0177}
+- Method: GET
+- Header
+    - Authorization: Bearer {token}
+- Responses
+
+Success
+```
+{
+    "_id": "63b72cdd075c9cdab99a0177",
+    "title": "what to expect when you're Expecting",
+    "shortDescription": "America's pregnancy bible answers all your baby questions",
+    "longDescription": "your pregnancy explained and your pregnant demystified, head(what to do about those headaches) to feet(why they're so swollen)",
+    "year": 2016,
+    "isbn": "1252reyewi56",
+    "price": 2.6,
+    "createdAt": "2023-01-05T20:02:37.504Z",
+    "lastUpdatedAt": "2023-01-05T20:02:37.504Z",
+    "__v": 0
+}
+```
+---
+
+### update a Book  (logged in users only )
+
+- Route: /api/v1/books/:id
+- Method: put
+- Header
+    - Authorization: Bearer {token}
+- Body: 
+```
+{
+    "price": 2.60
+}
+```
+
+- Responses
+
+Success
+```
+{
+    "_id": "63b72cdd075c9cdab99a0177",
+    "title": "what to expect when you're Expecting",
+    "shortDescription": "America's pregnancy bible answers all your baby questions",
+    "longDescription": "your pregnancy explained and your pregnant demystified, head(what to do about those headaches) to feet(why they're so swollen)",
+    "year": 2016,
+    "isbn": "1252reyewi56",
+    "price": 2.6,
+    "createdAt": "2023-01-05T20:02:37.504Z",
+    "lastUpdatedAt": "2023-01-05T20:02:37.504Z",
+    "__v": 0
+}
+
+```
+---
+
+### delete a book (logged in users only )
+
+- Route: /api/v1/books/:id
+- Method: delete
+- Header
+    - Authorization: Bearer {token}
+- Responses
+
+Success
+```
+{
+    "acknowledged": true,
+    "deletedCount": 1
 }
 
 
