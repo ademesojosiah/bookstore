@@ -2,26 +2,26 @@ const express = require("express");
 const rateLimit = require('express-rate-limit');
 const helmet = require("helmet");
 const {requiresAuth} = require('express-openid-connect')
-const { auth } = require('express-oauth2-jwt-bearer');
+// const { auth } = require('express-oauth2-jwt-bearer');
 var request = require("request");
 
-var options = { method: 'POST',
-  url: 'https://dev-4rwd2bfa77bx8t6m.us.auth0.com/oauth/token',
-  headers: { 'content-type': 'application/json' },
-  body: '{"client_id":"G6vCMVPyNichOGEgLIaT3t3rxY6pX5VE","client_secret":"rgH49M1FvZ3vcjgxeDi9FaAgfW7ypsWWteuD2TQ-RPyUe8z34QgSVnepCyLeVFok","audience":"http://localhost:4000","grant_type":"client_credentials"}' };
+// var options = { method: 'POST',
+//   url: 'https://dev-4rwd2bfa77bx8t6m.us.auth0.com/oauth/token',
+//   headers: { 'content-type': 'application/json' },
+//   body: '{"client_id":"G6vCMVPyNichOGEgLIaT3t3rxY6pX5VE","client_secret":"rgH49M1FvZ3vcjgxeDi9FaAgfW7ypsWWteuD2TQ-RPyUe8z34QgSVnepCyLeVFok","audience":"http://localhost:4000","grant_type":"client_credentials"}' };
 
-request(options, function (error, response, body) {
-  if (error) throw new Error(error);
+// request(options, function (error, response, body) {
+//   if (error) throw new Error(error);
 
-  console.log(body);
-});
+//   console.log(body);
+// });
 
-// Authorization middleware. When used, the Access Token must
-// exist and be verified against the Auth0 JSON Web Key Set.
-const checkJwt = auth({
-  audience: 'http://localhost:4000',
-  issuerBaseURL: `https://dev-4rwd2bfa77bx8t6m.us.auth0.com/`,
-});
+// // Authorization middleware. When used, the Access Token must
+// // exist and be verified against the Auth0 JSON Web Key Set.
+// const checkJwt = auth({
+//   audience: 'http://localhost:4000',
+//   issuerBaseURL: `https://dev-4rwd2bfa77bx8t6m.us.auth0.com/`,
+// });
 
 
 const conFig = require("./config/config");
@@ -61,7 +61,7 @@ app.use(limiter)
 app.use(helmet()); 
 
 
-app.use("/api/v1/books",checkJwt, bookRouter);
+app.use("/api/v1/books",requiresAuth, bookRouter);
 app.use("/api/v1/authors",requiresAuth, authorRouter)
 app.get("/", (req, res) => {
   res.send("hello bookstore");
