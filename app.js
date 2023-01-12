@@ -64,7 +64,7 @@ app.use(helmet());
 app.use("/api/v1/books",requiresAuth, bookRouter);
 app.use("/api/v1/authors",requiresAuth, authorRouter)
 app.get("/", (req, res) => {
-  res.send("hello bookstore");
+  res.send('<h>welcome to bookstore Api</h><a href="/login">Login here</a>');
 });
 
 //error handler middleware
